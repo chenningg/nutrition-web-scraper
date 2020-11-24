@@ -18,16 +18,17 @@ DRIVER_PATH = os.getenv("DRIVER_PATH")
 # Open Edge driver
 options = EdgeOptions()
 options.use_chromium = True
+options.add_argument("headless")
 
 driver = Edge(options=options, executable_path=DRIVER_PATH)
 
 food_names = []
 
-with open("./data/food_names.txt", "r") as food_names_file:
+with open("./data/food_names_hpb.txt", "r") as food_names_file:
     for food_name in food_names_file:
         food_names.append(food_name.rstrip())
 
-with open("./data/food_data.csv", "a") as food_desc_file:
+with open("./results/food_data_hpb.csv", "a", newline="") as food_desc_file:
     spamwriter = csv.writer(food_desc_file, delimiter='|',
                             quotechar='\\', quoting=csv.QUOTE_MINIMAL)
 
@@ -43,7 +44,8 @@ with open("./data/food_data.csv", "a") as food_desc_file:
         food_name = food_name.rstrip()
 
         try:
-            search_food_name = driver.find_element_by_id("txtFoodName")
+            search_food_name = WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.ID, "txtFoodName")))
 
             # Input food name
             search_food_name.clear()
