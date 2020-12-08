@@ -1,11 +1,13 @@
 import csv
 
 # Extract ingredients by searching for ", raw" regex
-with open("./results/food_data_hpb_v2.csv", "r", newline="") as food_data_file:  # Input
+with open(
+    "./data/food_nutrients_fndds.csv", "r", newline=""
+) as food_data_file:  # Input
     with open(
-        "./results/ingredient_data_hpb_v1.csv", "a", newline=""
+        "./results/ingredient_data_fndds_v1.csv", "a", newline=""
     ) as food_ingredient_file:  # Output
-        food_data_reader = csv.reader(food_data_file, delimiter="|", quotechar="\\")
+        food_data_reader = csv.reader(food_data_file, delimiter=",", quotechar='"')
 
         # Skip the headers row
         next(food_data_reader, None)
@@ -50,7 +52,7 @@ with open("./results/food_data_hpb_v2.csv", "r", newline="") as food_data_file: 
             # If ingredient, we write it to output
             if (
                 ", raw" in food_name
-                and "Sushi" not in food_name
                 or "nuts," in food_name
+                and "Sushi" not in food_name
             ):
                 spamwriter.writerow(row)
