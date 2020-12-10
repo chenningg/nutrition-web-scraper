@@ -1,7 +1,5 @@
 .vscode/
 .venv/
-data/
-results/
 
 # Logs
 logs
