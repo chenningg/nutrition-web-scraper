@@ -19,13 +19,13 @@ DRIVER_PATH = os.getenv("DRIVER_PATH")
 # Open Edge driver and set various settings
 options = EdgeOptions()
 options.use_chromium = True
-options.add_argument("headless")
+# options.add_argument("headless")
 
 driver = Edge(options=options, executable_path=DRIVER_PATH)
 
 # Open new file to write results to
 with open(
-    "./results/food_categories_hpb_v1.csv", "a", newline=""
+    "./results/foods/food_categories_hpb.csv", "a", newline=""
 ) as food_categories_file:
     spamwriter = csv.writer(
         food_categories_file, delimiter="|", quotechar="\\", quoting=csv.QUOTE_MINIMAL

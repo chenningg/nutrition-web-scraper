@@ -30,7 +30,7 @@ with open("./data/food_names_hpb.txt", "r") as food_names_file:
         food_names.append(food_name.rstrip())
 
 # Open new file to write results to
-with open("./results/food_data_hpb_v2.csv", "a", newline="") as food_desc_file:
+with open("./results/foods/food_data_hpb.csv", "a", newline="") as food_desc_file:
     spamwriter = csv.writer(
         food_desc_file, delimiter="|", quotechar="\\", quoting=csv.QUOTE_MINIMAL
     )

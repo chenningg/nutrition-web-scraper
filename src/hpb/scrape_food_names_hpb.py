@@ -13,7 +13,7 @@ DRIVER_PATH = os.getenv("DRIVER_PATH")
 print(os.listdir())
 
 # Write food names to file
-with open("./data/food_names_hpb.txt", "a") as food_names_file:
+with open("./data/hpb/food_names_hpb.txt", "a") as food_names_file:
     # Open Edge driver
     options = EdgeOptions()
     options.use_chromium = True
@@ -27,6 +27,6 @@ with open("./data/food_names_hpb.txt", "a") as food_names_file:
     food_elements = element.find_elements_by_tag_name("option")
 
     for food in food_elements:
-        food_names_file.write(food.get_attribute("innerText") + '\n')
+        food_names_file.write(food.get_attribute("innerText") + "\n")
 
     driver.quit()

@@ -1,17 +1,15 @@
+import json
 import csv
 
-# Extract ingredients by searching for ", raw" regex
-with open("./results/food_data_hpb_v2.csv", "r", newline="") as food_data_file:  # Input
+# Open JSON data file and load ingredients
+with open("./data/recipes_raw_nosource_ar.json") as recipe_file:
+    data = json.load(recipe_file)
     with open(
-        "./results/ingredient_data_hpb_v1.csv", "a", newline=""
-    ) as food_ingredient_file:  # Output
-        food_data_reader = csv.reader(food_data_file, delimiter="|", quotechar="\\")
-
-        # Skip the headers row
-        next(food_data_reader, None)
+        "./results/recipes/recipe_ingredients_ar.csv", "a", newline=""
+    ) as food_ingredients_file:  # Output
 
         spamwriter = csv.writer(
-            food_ingredient_file,
+            food_ingredients_file,
             delimiter="|",
             quotechar="\\",
             quoting=csv.QUOTE_MINIMAL,
@@ -19,7 +17,7 @@ with open("./results/food_data_hpb_v2.csv", "r", newline="") as food_data_file: 
 
         spamwriter.writerow(
             [
-                "ingredient_name",
+                "food_name",
                 "serving_size",
                 "serving_size_unit",
                 "description",
