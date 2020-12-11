@@ -6,7 +6,7 @@ input_path = os.path.join(dirname, "../../data/fndds-fda/food_nutrients_fndds.cs
 servings_input_path = os.path.join(
     dirname, "../../data/fndds-fda/cleaned_food_servings_fndds.csv"
 )
-output_path = os.path.join(dirname, "../../results/foods/food_nutrients_fndds.csv")
+output_path = os.path.join(dirname, "../../results/foods/food_nutrients_fnddsv2.csv")
 
 with open(input_path, "r", newline="") as input_file:  # Input
     with open(servings_input_path, "r", newline="") as servings_input_file:
@@ -35,6 +35,7 @@ with open(input_path, "r", newline="") as input_file:  # Input
             # Get newly titled headers
             headers = ["food_name", "serving_desc", "serving_size", "serving_size_unit"]
 
+            nutrient_headers = []
             for file_header in file_headers:
                 file_header_split = file_header.split()
 
@@ -48,143 +49,19 @@ with open(input_path, "r", newline="") as input_file:  # Input
                 nutrient_unit = file_header_split[-1][1:-1]
 
                 # Add unit to dictionary
-                nutrients_dict[file_header] = nutrient_unit
+                nutrients_dict[nutrient_name] = nutrient_unit
 
                 # Add newly titled header without units to headers
-                headers.append(nutrient_name)
-                headers.append(nutrient_name + "_unit")
+                nutrient_headers.append(nutrient_name)
+
+            # Sort nutrient headers
+            nutrient_headers.sort()
+            for nutrient_header in nutrient_headers:
+                headers.append(nutrient_header)
+                headers.append(nutrient_header + "_unit")
 
             # Write headers to output file
             writer.writerow(headers)
-
-            # headers = [
-            #     "food_name",
-            #     "serving_desc",
-            #     "serving_size",
-            #     "serving_size_unit",
-            #     "energy",
-            #     "energy_unit",
-            #     "protein",
-            #     "protein_unit",
-            #     "carbohydrate",
-            #     "carbohydrate_unit",
-            #     "sugars",
-            #     "sugars_unit",
-            #     "dietary_fiber",
-            #     "dietary_fiber_unit",
-            #     "total_fat",
-            #     "total_fat_unit",
-            #     "saturated_fat",
-            #     "saturated_fat_unit",
-            #     "monounsaturated_fat",
-            #     "monounsaturated_fat_unit",
-            #     "polyunsaturated_fat",
-            #     "polyunsaturated_fat_unit",
-            #     "cholesterol",
-            #     "cholesterol_unit",
-            #     "retinol",
-            #     "retinol_unit",
-            #     "vitamin_a",
-            #     "vitamin_a_unit",
-            #     "carotene_alpha",
-            #     "carotene_alpha_unit",
-            #     "carotene_beta",
-            #     "carotene_beta_unit",
-            #     "cryptoxanthin_beta",
-            #     "cryptoxanthin_beta_unit",
-            #     "lycopene",
-            #     "lycopene_unit",
-            #     "lutein_zeaxanthin",
-            #     "lutein_zeaxanthin_unit",
-            #     "thiamin",
-            #     "thiamin_unit",
-            #     "riboflavin",
-            #     "riboflavin_unit",
-            #     "niacin",
-            #     "niacin_unit",
-            #     "vitamin_b6",
-            #     "vitamin_b6_unit",
-            #     "folic_acid",
-            #     "folic_acid_unit",
-            #     "folate",
-            #     "folate_unit",
-            #     "choline",
-            #     "choline_unit",
-            #     "vitamin_b12",
-            #     "vitamin_b12_unit",
-            #     "vitamin_c",
-            #     "vitamin_c_unit",
-            #     "vitamin_d",
-            #     "vitamin_d_unit",
-            #     "vitamin_e",
-            #     "vitamin_e_unit",
-            #     "vitamin_k",
-            #     "vitamin_k_unit",
-            #     "calcium",
-            #     "calcium_unit",
-            #     "phosphorus",
-            #     "phosphorus_unit",
-            #     "magnesium",
-            #     "magnesium_unit",
-            #     "iron",
-            #     "iron_unit",
-            #     "zinc",
-            #     "zinc_unit",
-            #     "copper",
-            #     "copper_unit",
-            #     "selenium",
-            #     "selenium_unit",
-            #     "potassium",
-            #     "potassium_unit",
-            #     "sodium",
-            #     "sodium_unit",
-            #     "caffeine",
-            #     "caffeine_unit",
-            #     "theobromine",
-            #     "theobromine_unit",
-            #     "alcohol",
-            #     "alcohol_unit",
-            #     "4:0",
-            #     "4:0_unit",
-            #     "6:0",
-            #     "6:0_unit",
-            #     "8:0",
-            #     "8:0_unit",
-            #     "10:0",
-            #     "10:0_unit",
-            #     "12:0",
-            #     "12:0_unit",
-            #     "14:0",
-            #     "14:0_unit",
-            #     "16:0",
-            #     "16:0_unit",
-            #     "18:0",
-            #     "18:0_unit",
-            #     "16:1",
-            #     "16:1_unit",
-            #     "18:1",
-            #     "18:1_unit",
-            #     "20:1",
-            #     "20:1_unit",
-            #     "22:1",
-            #     "22:1_unit",
-            #     "18:2",
-            #     "18:2_unit",
-            #     "18:3",
-            #     "18:3_unit",
-            #     "18:4",
-            #     "18:4_unit",
-            #     "20:4",
-            #     "20:4_unit",
-            #     "20:5_n-3",
-            #     "20:5_n-3_unit",
-            #     "22:5_n-3",
-            #     "22:5_n-3_unit",
-            #     "22:6_n-3",
-            #     "22:6_n-3_unit",
-            #     "water",
-            #     "water_unit",
-            # ]
 
             # Record which index we are at so we can just read that index for each food in the nutrients list
             serving_index = 0
@@ -205,6 +82,8 @@ with open(input_path, "r", newline="") as input_file:  # Input
                     output.append(servings[serving_index]["serving_size"])
                     output.append(servings[serving_index]["serving_size_unit"])
 
+                    output_dict = {}
+
                     # Calculate variables for nutrients
                     for i in range(4, len(row)):
                         # Calculate nutrient amount based on serving size (original nutrient amount is per 100g)
@@ -212,12 +91,20 @@ with open(input_path, "r", newline="") as input_file:  # Input
                             servings[serving_index]["serving_size"]
                         )
 
-                        # Get nutrient unit
-                        nutrient_unit = nutrients_dict[file_headers[i - 4]]
+                        # Store to dictionary output
+                        nutrient_name = ""
+                        for word in file_headers[i - 4].split()[:-1]:
+                            nutrient_name += word.replace(",", "") + "_"
+                        nutrient_name = nutrient_name[:-1]
+                        nutrient_name = nutrient_name.replace("_+_", "+")
+                        nutrient_name = nutrient_name.lower()
 
-                        # Add to output
-                        output.append(nutrient_amount)
-                        output.append(nutrient_unit)
+                        output_dict[nutrient_name] = nutrient_amount
+
+                    # Add to output
+                    for nutrient_header in nutrient_headers:
+                        output.append(output_dict[nutrient_header])
+                        output.append(nutrients_dict[nutrient_header])
 
                     # Increment serving index to get the next serving
                     serving_index += 1
