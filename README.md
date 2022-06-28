@@ -1,6 +1,6 @@
-# Amili Scraper
+# Nutrition Web Scraper
 
-Scrapes nutritional data. This project uses [Poetry](https://python-poetry.org/) to manage Python dependencies.
+Scrapes nutritional data from various public health websites. This project uses [Poetry](https://python-poetry.org/) to manage Python dependencies.
 
 ## Installation and setup
 
